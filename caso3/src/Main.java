@@ -2,22 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CyclicBarrier;
 
-/**
- * Punto de entrada del Simulador Concurrente de Sistema IoT (Caso 3).
- *
- * Responsabilidades:
- *   - Leer el archivo de configuracion.
- *   - Crear los buzones (uno de entrada, uno de alertas, uno de clasificacion,
- *     ns de consolidacion).
- *   - Crear e iniciar los threads (ni sensores, 1 broker, 1 administrador,
- *     nc clasificadores, ns servidores).
- *   - Esperar (join) a que todos los threads terminen.
- *   - Validar el estado final del sistema (buzones vacios).
- *
- * Uso:
- *   java Main [ruta_config]
- *   Por defecto, la ruta es "config.txt".
- */
+
 public class Main {
 
     public static void main(String[] args) {
@@ -38,7 +23,7 @@ public class Main {
 
         final long tiempoInicio = System.currentTimeMillis();
 
-        // ---- Creacion de los buzones ----
+
         BuzonIlimitado buzonEntrada   = new BuzonIlimitado("Entrada");
         BuzonIlimitado buzonAlertas   = new BuzonIlimitado("Alertas");
         BuzonAcotado   buzonClasif    = new BuzonAcotado("Clasificacion", cfg.tam1);
@@ -47,10 +32,10 @@ public class Main {
             buzonesConsol[i] = new BuzonAcotado("Consolidacion-" + (i + 1), cfg.tam2);
         }
 
-        // ---- Contador para identificar al ultimo clasificador ----
+
         ContadorClasificadores contador = new ContadorClasificadores(cfg.nc);
 
-        // ---- Creacion de los threads ----
+
         CyclicBarrier barreraSensores = new CyclicBarrier(cfg.ni);
         List<Sensor> sensores = new ArrayList<>();
         int totalEventos = cfg.totalEventosEsperados();
@@ -69,15 +54,13 @@ public class Main {
             servidores.add(new Servidor(i, buzonesConsol[i - 1], 4000L + i));
         }
 
-        // ---- Inicio de los threads ----
-        // Consumidores primero, para que esten listos cuando lleguen eventos.
         for (Servidor s : servidores) s.start();
         for (Clasificador c : clasificadores) c.start();
         admin.start();
         broker.start();
         for (Sensor s : sensores) s.start();
 
-        // ---- Esperar terminacion (join) ----
+
         try {
             for (Sensor s : sensores) s.join();
             broker.join();
@@ -92,7 +75,6 @@ public class Main {
 
         final long tiempoFin = System.currentTimeMillis();
 
-        // ---- Validacion final: todos los buzones deben quedar vacios ----
         boolean ok = true;
         System.out.println();
         System.out.println("== Validacion final del sistema ==");

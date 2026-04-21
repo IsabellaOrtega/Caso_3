@@ -1,0 +1,23 @@
+# Archivo de configuracion del Sistema IoT - Caso 3
+# Concurrencia y Sincronizacion de Procesos
+#
+# Las lineas que comienzan con '#' son comentarios.
+# Formato: clave=valor (un parametro por linea)
+
+# Numero de sensores IoT (ni)
+ni=5
+
+# Numero base de eventos (cada sensor i produce base*i eventos)
+base=4
+
+# Numero de clasificadores (nc)
+nc=3
+
+# Numero de servidores de consolidacion y despliegue (ns)
+ns=4
+
+# Capacidad del buzon para clasificacion (tam1)
+tam1=10
+
+# Capacidad de cada buzon de consolidacion (tam2)
+tam2=5

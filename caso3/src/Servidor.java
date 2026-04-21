@@ -1,19 +1,6 @@
 import java.util.Random;
 
-/**
- * Servidor de consolidacion y despliegue (thread consumidor final).
- *
- * Responsabilidades:
- *   - Lee eventos uno por uno de su buzon de consolidacion (acotado).
- *   - Por cada evento, simula consolidacion y despliegue durmiendo entre
- *     100 ms y 1000 ms.
- *   - Termina cuando recibe un evento de FIN.
- *
- * Sincronizacion:
- *   - Con los clasificadores: wait/notifyAll en su buzon de consolidacion.
- *   - El sleep durante el procesamiento es un retardo simulado, no es
- *     sincronizacion concurrente.
- */
+
 public class Servidor extends Thread {
 
     private final int id;

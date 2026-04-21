@@ -1,10 +1,5 @@
 import java.util.Random;
 
-/**
- * Sincronizacion:
- *   - Con broker: wait/notifyAll en el buzon de alertas (espera pasiva).
- *   - Con clasificadores: wait/notifyAll en el buzon de clasificacion (acotado).
- */
 public class Administrador extends Thread {
 
     private final int nc;
@@ -32,7 +27,6 @@ public class Administrador extends Thread {
                 Evento e = buzonAlertas.retirar();
 
                 if (e.esFin()) {
-                    // mandar fin a clasificadores
                     for (int i = 0; i < nc; i++) {
                         buzonClasificacion.depositar(Evento.eventoFin());
                     }
@@ -46,7 +40,6 @@ public class Administrador extends Thread {
                 if (n % 4 == 0) {
                     buzonClasificacion.depositar(e);
                 }
-                // si no, simplemente lo ignora
 
             }
         } catch (Exception e) {

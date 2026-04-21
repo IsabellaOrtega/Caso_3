@@ -3,18 +3,13 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * Lectura del archivo de configuracion del sistema IoT.
- *
- * El archivo tiene el formato clave=valor, una linea por parametro.
- * Las lineas en blanco y las que inician con '#' son ignoradas.
- *
- * Parametros esperados:
- *   ni    = numero de sensores
- *   base  = numero base de eventos
- *   nc    = numero de clasificadores
- *   ns    = numero de servidores de consolidacion
- *   tam1  = capacidad del buzon de clasificacion
- *   tam2  = capacidad de cada buzon de consolidacion
+ Parametros esperados:
+  ni    = numero de sensores
+ base  = numero base de eventos
+ nc    = numero de clasificadores
+ ns    = numero de servidores de consolidacion
+tam1  = capacidad del buzon de clasificacion
+ tam2  = capacidad de cada buzon de consolidacion
  */
 public class Config {
 
@@ -80,7 +75,6 @@ public class Config {
         return new Config(ni, base, nc, ns, tam1, tam2);
     }
 
-    /** Total de eventos esperados en el sistema: base * (1 + 2 + ... + ni). */
     public int totalEventosEsperados() {
         return base * ni * (ni + 1) / 2;
     }
